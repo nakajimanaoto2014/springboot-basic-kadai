@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ToDoリスト</title>
 </head>
 <body>
@@ -15,7 +16,7 @@
 				<th>ステータス</th>
 			</tr>
 		</thead>
-	</table>
+	
 	<tbody>
 		<tr th:each="todo : ${todos}">
 			<td th:text="${todo.getId()}"></td>
@@ -23,6 +24,7 @@
 			<td th:text="${todo.getPriority()}"></td>
 			<td th:text="${todo.getStatus()}"></td>
 		</tr>
+	</table>
 	</tbody>
 </body>
 </html>
