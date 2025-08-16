@@ -1,57 +1,72 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>お問い合わせフォーム</title>
     <style>
         body {
-    font-family: "Segoe UI", Arial, sans-serif;
-    margin: 30px;
-}
-
-	form {
-    max-width: 500px;
-    display: grid;
-    grid-template-columns: 150px 1fr; /* 左ラベル150px・右入力欄が残り全部 */
-    gap: 15px 10px; /* 行間15px・列間10px */
-	}
-
-	label {
-    text-align: right;
-    padding-top: 5px;
-    font-weight: bold;
-	}
-
-	input, textarea, select {
-    width: 100%;
-    padding: 6px 8px;
-    box-sizing: border-box;
-	}	
-
-	/* 送信以外のボタンを等間隔にする場合は class をつける */
-	.button-wide {
-    grid-column: span 2; /* 2列分使う */
-    padding: 8px 12px;
-}
+            font-family: Arial, sans-serif;
+        }
+        h2 {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        form {
+            margin: 20px;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        td {
+            padding: 5px;
+           
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 250px;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px;
+        }
     </style>
 </head>
 <body>
-
-    <h2>お問い合わせフォーム</h2>
-
-    <form th:action="@{/confirm}" method="post" th:object="${contactForm}">
-        <label for="userName">お名前</label>
-        <input type="text" id="userName" th:field="*{userName}">
-
-        <label for="address">メールアドレス</label>
-        <input type="email" id="address" th:field="*{address}">
-
-        <label for="inquiry">お問い合わせ内容</label>
-        <textarea id="inquiry" rows="4" th:field="*{inquiry}"></textarea>
-
-        <button type="submit"></button>
-    </form>
-
-</body>
-</html>
+    <h2>お問い合わせフォーム</h2> 
+    <form th:action="@{/register}" method="post" th:object="${contactForm}"> 
+		<!-- 枠線を作る-->
+		<table border="1">
+			<!--エクセルの表みたいにする。-->
+			<tr>
+				<td>お名前</td>
+				<td> 
+					<input type="text" th:field="*{userName}">
+					<br>
+					<div th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" style="color: red;"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>メールアドレス</td>
+				<td>
+					<input type="text" th:field="*{address}">
+					<br>
+					<div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color: red"></div> 
+				</td>
+			</tr>
+			<tr>
+				<td>お問い合わせ内容</td>
+				<td>
+					<textarea th:field="*{inquiry}" cols="30" rows="10"></textarea>
+					<br>
+					<div th:if="${#fields.hasErrors('inquiry')}" th:errors="*{inquiry}" style="color: red"></div> 
+				</td>
+			</tr>
+		</table>
+		   
+		 <button type="submit">送信</button>
+		  
+	 </form>
+ </body> 
+ </html>

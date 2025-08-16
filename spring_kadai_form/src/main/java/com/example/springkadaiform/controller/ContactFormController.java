@@ -13,23 +13,25 @@ import com.example.springkadaiform.form.ContactForm;
 @Controller
 public class ContactFormController{
 
-	//ファーム表示
+	//お問い合わせフォーム表示
 	@GetMapping("/form")
-public String form(Model model) {
-	model.addAttribute("contactForm",new ContactForm());
-	return "contactFormView";
-}
-	//ファーム送信
+	public String form(Model model) {
+		model.addAttribute("contactForm",new ContactForm());
+		return "contactFormView";
+	}
+	
+	//お問い合わせフォーム送信
 	@PostMapping("/register")
 	public String registerUser (@Validated @ModelAttribute("contactForm")ContactForm form,
 								BindingResult result,
 								Model model) {
 		
-	//バリデーションエラーがあったら終了
+	//バリデーションエラーがあったら入力画面に戻す
 	if(result.hasErrors()) {
 		//エラーがある場合、入力画面に戻す
 		return "contactFormView";
 	}
+	
 	//バリデーション成功 → 確認画面へ
 	model.addAttribute("contactForm",form);
 	return "confirmView";
