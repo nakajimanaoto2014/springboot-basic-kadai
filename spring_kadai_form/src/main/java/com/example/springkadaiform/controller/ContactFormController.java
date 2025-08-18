@@ -1,6 +1,5 @@
 package com.example.springkadaiform.controller;
 
-import org.springframework.core.Conventions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,34 +12,34 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.springkadaiform.form.ContactForm;
 
 @Controller
-public class ContactFormController{
+public class ContactFormController {
 
-	//お問い合わせフォーム表示
-	@GetMapping("/form")
-	public String form(Model model) {
-		model.addAttribute("contactForm",new ContactForm());
-		return "contactFormView";
-	}
-	
-	//お問い合わせフォーム送信
-	@PostMapping("/register")
-	public String registerUser (@Validated @ModelAttribute("contactForm")ContactForm form,
-								BindingResult result,
-								Model model,
-								RedirectAttributes redirectAttributes) {
-		
-	//バリデーションエラーがあったら入力画面に戻す
-	if(result.hasErrors()) {
-		//フォームクラスをビューに受け渡す
-		redirectAttributes.addFlashAttribute("contactForm",form);
-		//バリデーション結果ををビューに受け渡す
-		redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + Conventions.getVariableName(form),result);
-		//エラーがある場合、入力画面に戻す
-		return "contactFormView";
-	}
-	
-	//バリデーション成功 → 確認画面へ
-	model.addAttribute("contactForm",form);
-	return "confirmView";
-	}
+    // フォーム表示
+    @GetMapping("/form")
+    public String form(@ModelAttribute("contactForm") ContactForm form) {
+        // redirect後にFlashAttributesからcontactFormが入ってくるのでnew不要
+        return "contactFormView";
+    }
+
+    // フォーム送信
+    @PostMapping("/register")
+    public String registerUser(
+            @Validated @ModelAttribute("contactForm") ContactForm form,
+            BindingResult result,
+            RedirectAttributes redirectAttributes,
+            Model model) {
+
+        // バリデーションエラー → リダイレクト
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("contactForm", form);
+            redirectAttributes.addFlashAttribute(
+                BindingResult.MODEL_KEY_PREFIX + "contactForm", result
+            );
+            return "redirect:/form";
+        }
+
+        // バリデーション成功 → 確認画面へ
+        model.addAttribute("contactForm", form);
+        return "confirmView";
+    }
 }
