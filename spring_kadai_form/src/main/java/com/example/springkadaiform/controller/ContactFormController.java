@@ -16,13 +16,15 @@ public class ContactFormController {
 
     // フォーム表示
     @GetMapping("/form")
-    public String form(@ModelAttribute("contactForm") ContactForm form) {
-        // redirect後にFlashAttributesからcontactFormが入ってくるのでnew不要
+    public String form(Model model) {
+       
+        if (!model.containsAttribute("contactForm")) {
+            model.addAttribute("contactForm", new ContactForm());
+        }
         return "contactFormView";
     }
-
     // フォーム送信
-    @PostMapping("/register")
+    @PostMapping("/form")
     public String registerUser(
             @Validated @ModelAttribute("contactForm") ContactForm form,
             BindingResult result,
