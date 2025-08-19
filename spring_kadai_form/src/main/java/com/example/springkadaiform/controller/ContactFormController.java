@@ -39,9 +39,14 @@ public class ContactFormController {
             );
             return "redirect:/form";
         }
-
+        
+        //入力OK時→確認画面にリダイレクト
+        redirectAttributes.addFlashAttribute("contactForm" , form);
+        return "redirect:/confirm";
+    }
         // バリデーション成功 → 確認画面へ
-       
+       @GetMapping("/confirm")
+       public String confirm(@ModelAttribute("contactForm")ContactForm form) {
         return "confirmView";
     }
 }
