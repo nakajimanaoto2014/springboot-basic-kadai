@@ -41,7 +41,7 @@ public class ContactFormController {
         }
 
         // バリデーション成功 → 確認画面へ
-        model.addAttribute("contactForm", form);
+       
         return "confirmView";
     }
 }
